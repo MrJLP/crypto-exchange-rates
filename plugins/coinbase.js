@@ -13,6 +13,9 @@ const availablePairs = [
 
 /////
 
+var processResponse = function(response, callback) {
+}
+
 exports.getName = () => 'coinbase'
 
 exports.getCurrencyPairs = function (pairs, callback) {
@@ -28,7 +31,10 @@ exports.getCurrencyPairs = function (pairs, callback) {
 
     axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
               { headers: {'CB-VERSION': VERSION_DATE}})
-         .then(callback)
+         .then(function(response) {
+           var value = response.data.data['amount'] || "";
+           callback(value)
+         })
          .catch(function(error) {
            console.log(error)
          })

@@ -12,13 +12,9 @@ const currencyPairs = [
 
 console.log("coinbase.getCurrencyPairs(", currencyPairs, ")...")
 
-var ret = coinbase.getCurrencyPairs( currencyPairs, function(response) {
+var ret = coinbase.getCurrencyPairs( currencyPairs, function(value) {
   //console.log("  response.data: ", response.data)
-  console.log("  response.data.data:", response.data.data)
-  const { amount, currency } = response.data.data;
-//  var result = { source: source, dest: dest, value: amount }
-  console.log("  amount", amount)
-  console.log("  currency", currency)
+  console.log("  value", value)
 })
 
 console.log("RESPONSE:")

@@ -10,13 +10,9 @@ const currencyPairs = [
 
 console.log("bitcoinaverage.getCurrencyPairs(", currencyPairs, ")...")
 
-var ret = bitcoinaverage.getCurrencyPairs( currencyPairs, function(response) {
+var ret = bitcoinaverage.getCurrencyPairs( currencyPairs, function(value) {
 
-  //console.log("  response.data:", response.data)
-
-  //TODO: processing of reponse should be done in exchangeRateSource
-  const { success, price, time } = response.data;
-  console.log("  price: ", price)
+  console.log("  value: ", value)
 })
 
 console.log("RESPONSE:")

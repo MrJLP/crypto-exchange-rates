@@ -12,13 +12,8 @@ const currencyPairs = [
 
 console.log("bitstamp.getCurrencyPairs(", currencyPairs, ")...")
 
-var ret = bitstamp.getCurrencyPairs( currencyPairs, function(response) {
-
-  //console.log("  response.data:", response.data)
-
-  //TODO: processing of reponse should be done in exchangeRateSource
-  const { bid, ask, last, low, high, volume, timestamp } = response.data; // ignore unused fields
-  console.log("  last: ", last)
+var ret = bitstamp.getCurrencyPairs( currencyPairs, function(value) {
+  console.log("  value: ", value)
 })
 
 console.log("RESPONSE:")

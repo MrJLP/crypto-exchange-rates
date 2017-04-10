@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require('axios')
 
 
 exports.getName = () => 'bitcoinaverage'
@@ -14,7 +14,10 @@ exports.getCurrencyPairs = function (pairs, callback) {
     }
 
     axios.get( `https://apiv2.bitcoinaverage.com/convert/global?from=${element.source}&to=${element.dest}&amount=1` )
-         .then(callback)
+         .then(function(response) {
+           const { success, price, time } = response.data
+           callback(price)
+         })
          .catch(function(error) {
            console.log(error)
          })
@@ -23,6 +26,5 @@ exports.getCurrencyPairs = function (pairs, callback) {
   }) 
 
 }
-
 
 

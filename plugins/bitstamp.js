@@ -12,10 +12,9 @@ const availablePairs = [
 
 exports.getName = () => 'bitstamp'
 
-exports.getCurrencyPairs = function (pairs, callback) {
+exports.getCurrencyPairs = function(pairs, callback) {
 
   // TODO: this will not work with multiple pairs, need to use axios.all() for that
-
 
   pairs.forEach( function(element, index, array) {
 
@@ -24,9 +23,11 @@ exports.getCurrencyPairs = function (pairs, callback) {
       currencyPair = 'btceur'
     }
 
-
     axios.get(`https://www.bitstamp.net/api/v2/ticker/${currencyPair}`)
-         .then(callback)
+         .then(function(response) {
+           const { bid, ask, last, low, high, volume, timestamp } = response.data;
+           callback(last)
+         })
          .catch(function(error) {
            console.log(error)
          })
@@ -35,6 +36,5 @@ exports.getCurrencyPairs = function (pairs, callback) {
   }) 
 
 }
-
 
 
