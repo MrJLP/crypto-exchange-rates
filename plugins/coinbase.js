@@ -13,71 +13,39 @@ const availablePairs = [
 
 /////
 
-var processResponse = function(response, callback) {
-}
-
 exports.getName = () => 'coinbase'
-
-exports.getCurrencyPairs = function (pairs, callback) {
-
-  // TODO: this will not work with multiple pairs, need to use axios.all() for that
-
-  pairs.forEach( function(element, index, array) {
-
-    var currencyPair = `${element.source}-{element.dest}`
-    if ( ! availablePairs.includes(currencyPair) ) {
-      currencyPair = 'BTC-USD'
-    }
-
-    axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
-              { headers: {'CB-VERSION': VERSION_DATE}})
-         .then(function(response) {
-           var value = response.data.data['amount'] || "";
-           callback(value)
-         })
-         .catch(function(error) {
-           console.log(error)
-         })
-
-    console.log(`made HTTP request... source: ${element.source}, dest: ${element.dest}`)
-  }) 
-
-}
-
-
-/*
 
 exports.getCurrencyPairs = function(pairs, callback) {
 
   var promises = []
+  var returnResults = pairs.slice() // copy currency pairs passed to return object, will contain value field added to it
 
   pairs.forEach( function(element, index, array) {
-
-    var currencyPair = `${element.source}-{element.dest}`
+    var currencyPair = `${element.source}-${element.dest}`
     if ( ! availablePairs.includes(currencyPair) ) {
       currencyPair = 'BTC-USD'
+      console.log(`ERR: ${currencyPair} not found, using default instead}`)
     }
 
-    req = axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
+    p = axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
                     { headers: {'CB-VERSION': VERSION_DATE } })
-
-    // save axios responses to process
-    promises.push( req )
+    // save axios promises
+    promises.push(p)
 
     console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
   })
 
-//  axios.all(promises).then(callback)
-  axios.all(promises).then( (response) => { console.log(response.data) } )
+  axios.all(promises).then( function(responses) {
+                       results = []
+                       responses.forEach( function(response, index, array) {
+                         var value = response.data.data['amount'] || "";
+                         results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
+                       })
+                       callback(results) //TODO: return array of objects using index and saved currency pairs above
+                     })
                      .catch(function(error) {
                        console.log(error)
                      })
 
-//  axios.all(promises).then(callback)
-//                     .catch(function(error) {
-//                       console.log(error)
-//                     })
-
 }
-*/
 

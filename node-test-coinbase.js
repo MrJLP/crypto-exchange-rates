@@ -7,14 +7,13 @@ console.log("coinbase.getName() = ", name)
 
 const currencyPairs = [
   { source: 'BTC', dest: 'USD' },
-//  { source: 'ETH', dest: 'USD' } //TODO: can't correctly handle pairs yet
+  { source: 'ETH', dest: 'USD' }
 ]
 
 console.log("coinbase.getCurrencyPairs(", currencyPairs, ")...")
 
-var ret = coinbase.getCurrencyPairs( currencyPairs, function(value) {
-  //console.log("  response.data: ", response.data)
-  console.log("  value", value)
+var ret = coinbase.getCurrencyPairs( currencyPairs, function(results) {
+  console.log("RESULTS:\n", results)
 })
 
 console.log("RESPONSE:")
