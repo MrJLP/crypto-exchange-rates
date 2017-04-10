@@ -3,7 +3,7 @@
 var coinbase = require("./exchangeRateSources").coinbase
 
 var name = coinbase.getName()
-console.log("name:", name)
+console.log("coinbase.getNname() = ", name)
 
 const currencyPairs = [
   { source: 'BTC', dest: 'USD' },

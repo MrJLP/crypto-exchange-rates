@@ -1,5 +1,10 @@
+
+
+//XXX: this is from original project I forked off
+
 const coinbase = require('./exchanges/coinbase');
 const bitstamp = require('./exchanges/bitstamp');
+const bitcoinaverage = require('./exchanges/bitcoinaverage');
 
 const bitfinex = require('./exchanges/bitfinex');
 const btce = require('./exchanges/btce');
@@ -16,7 +21,15 @@ function coinTicker(exchange, pair) {
     case 'bitstamp':
       return bitstamp(pair);
       break;
+    case 'bitcoinaverage':
+      return bitcoinaverage(pair);
+      break;
+//    case 'bravenewcoin':
+//      return bravenewcoin(pair);
+//      break;
 
+/* 
+// no need to keep this around for now
     case 'bitfinex':
       return bitfinex(pair);
       break;
@@ -35,6 +48,7 @@ function coinTicker(exchange, pair) {
     case 'exmo':
       return exmo(pair);
       break;
+*/
     default:
       console.error(`Unrecognized exchange: "${exchange}"`);
       return 'Unrecognized exchange';
