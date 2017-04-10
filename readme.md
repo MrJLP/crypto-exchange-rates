@@ -8,10 +8,10 @@ Initial goal is to get this compatible with the Airbitz ABC API.
 # TODO
 
 * Add support for BraveNewCoin (need API key)
-* Fix so it can use multiple currency pairs using concurrent promises
-* Move test scripts into mocha test framework
-* Put in complete and proper error handling
-* Add a test using mock ABC caller
 * Make sure objects and modules are done properly for API
-* Much refactoring and cleanup once I know best way to proceed 
+* Move test scripts into mocha framework
+* Add a test using mock ABC caller
+* Make sure error handling is good
+* Refactoring: base class or instance for axios to keep DRY
+* Other refactoring and cleanup
 
