@@ -11,22 +11,6 @@ const availablePairs = [
   'ETH-EUR',
 ]
 
-// takes in source and dest currencies, returns an object to be used for axios HTTP request
-var doHttpRequest = function(source, dest, callback) {
-
-  var currencyPair = `${source}-{dest}`
-  if ( ! availablePairs.includes(currencyPair) ) {
-    currencyPair = 'BTC-USD'
-  }
-
-  axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
-                   { headers: {'CB-VERSION': VERSION_DATE}})
-    .then(callback)
-    .catch(function(error) {
-      console.log(error)
-    })
-}
-
 /////
 
 exports.getName = () => 'coinbase'
@@ -36,7 +20,19 @@ exports.getCurrencyPairs = function (pairs, callback) {
   // TODO: this will not work with multiple pairs, need to use axios.all() for that
 
   pairs.forEach( function(element, index, array) {
-    doHttpRequest(element.source, element.dest, callback)
+
+    var currencyPair = `${element.source}-{element.dest}`
+    if ( ! availablePairs.includes(currencyPair) ) {
+      currencyPair = 'BTC-USD'
+    }
+
+    axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
+              { headers: {'CB-VERSION': VERSION_DATE}})
+         .then(callback)
+         .catch(function(error) {
+           console.log(error)
+         })
+
     console.log(`made HTTP request... source: ${element.source}, dest: ${element.dest}`)
   }) 
 

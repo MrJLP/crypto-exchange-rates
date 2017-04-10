@@ -2,7 +2,7 @@
 var bitcoinaverage = require("./exchangeRateSources").bitcoinaverage 
 
 var name = bitcoinaverage.getName()
-console.log("name:", name)
+console.log("bitcoinaverage.getName() = ", name)
 
 const currencyPairs = [
   { source: 'BTC', dest: 'USD' }

@@ -3,7 +3,7 @@
 var bitstamp = require("./exchangeRateSources").bitstamp
 
 var name = bitstamp.getName()
-console.log("name:", name)
+console.log("bitstamp.getName() = ", name)
 
 const currencyPairs = [
   { source: 'BTC', dest: 'EUR' },
