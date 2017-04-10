@@ -1,0 +1,31 @@
+{
+  "name": "crypto-exchage-rates",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrJLP/crypt-exchange-rates"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha ./test"
+  },
+  "keywords": [
+    "bitcoin",
+    "crypto",
+    "exchange",
+    "airbitz"
+  ],
+  "author": "Jason L Phillips",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  },
+  "dependencies": {
+    "axios": "^0.15.3"
+  }
+}
