@@ -18,7 +18,6 @@ exports.getName = () => 'coinbase'
 exports.getCurrencyPairs = function(pairs, callback) {
 
   var promises = []
-  var returnResults = pairs.slice() // copy currency pairs passed to return object, will contain value field added to it
 
   pairs.forEach( function(element, index, array) {
     var currencyPair = `${element.source}-${element.dest}`
@@ -41,7 +40,7 @@ exports.getCurrencyPairs = function(pairs, callback) {
                          var value = response.data.data['amount'] || "";
                          results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
                        })
-                       callback(results) //TODO: return array of objects using index and saved currency pairs above
+                       callback(results)
                      })
                      .catch(function(error) {
                        console.log(error)

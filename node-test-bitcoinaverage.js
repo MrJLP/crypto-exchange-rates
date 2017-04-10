@@ -10,9 +10,8 @@ const currencyPairs = [
 
 console.log("bitcoinaverage.getCurrencyPairs(", currencyPairs, ")...")
 
-var ret = bitcoinaverage.getCurrencyPairs( currencyPairs, function(value) {
-
-  console.log("  value: ", value)
+var ret = bitcoinaverage.getCurrencyPairs( currencyPairs, function(results) {
+  console.log("RESULTS: ", results)
 })
 
 console.log("RESPONSE:")

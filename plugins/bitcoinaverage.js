@@ -3,28 +3,33 @@ const axios = require('axios')
 
 exports.getName = () => 'bitcoinaverage'
 
-exports.getCurrencyPairs = function (pairs, callback) {
+exports.getCurrencyPairs = function(pairs, callback) {
 
-  // TODO: this will not work with multiple pairs, need to use axios.all() for that
+  var promises = []
 
   pairs.forEach( function(element, index, array) {
 
     if ( ! element || ! element.source || ! element.dest ) {
-       console.log("Invalid currency pair: ", element)
+       console.log("ERR: Invalid currency pair: ", element)
     }
 
-    axios.get( `https://apiv2.bitcoinaverage.com/convert/global?from=${element.source}&to=${element.dest}&amount=1` )
-         .then(function(response) {
-           const { success, price, time } = response.data
-           callback(price)
-         })
-         .catch(function(error) {
-           console.log(error)
-         })
+    // save axios promises for request
+    p = axios.get(`https://apiv2.bitcoinaverage.com/convert/global?from=${element.source}&to=${element.dest}&amount=1` )
+    promises.push(p)
 
-    console.log(`made HTTP request... source: ${element.source}, dest: ${element.dest}`)
-  }) 
+    console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
+  })
 
+  axios.all(promises).then( function(responses) {
+                       results = []
+                       responses.forEach( function(response, index, array) {
+                         const { success, price, time } = response.data
+                         results.push( { source: pairs[index].source, dest: pairs[index].dest, value: price} )
+                       })
+                       callback(results)
+                     })
+                     .catch(function(error) {
+                       console.log(error)
+                     })
 }
-
 
