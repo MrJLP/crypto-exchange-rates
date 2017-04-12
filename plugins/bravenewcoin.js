@@ -38,6 +38,7 @@ exports.getCurrencyPairs = function(pairs, callback) {
                        results = []
                        responses.forEach( function(response, index, array) {
                          var value = response.data['to_quantity'] || "";
+                         value = String(value)
                          results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
                        })
                        callback(results)

@@ -23,7 +23,8 @@ exports.getCurrencyPairs = function(pairs, callback) {
   axios.all(promises).then( function(responses) {
                        results = []
                        responses.forEach( function(response, index, array) {
-                         const { success, price, time } = response.data
+                         var { success, price, time } = response.data
+                         price = String(price) // ABC requires price as string
                          results.push( { source: pairs[index].source, dest: pairs[index].dest, value: price} )
                        })
                        callback(results)
