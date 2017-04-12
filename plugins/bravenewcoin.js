@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 // hardcode here for now, maybe put in config or pass into constructor
-const MASHAPE_API_KEY = 'x9rMzxxzkXmshaPisQGVFuQdsKSPp1Fr44LjsnGnikDEjYKo1U'
+const MASHAPE_API_KEY = 'API_KEY'
 
 // many more pairs are supported but limit to these that Airbitz uses
 const availablePairs = [

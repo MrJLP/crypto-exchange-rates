@@ -8,7 +8,6 @@ describe('coinTicker', () => {
   // Coinbase
   it('Should return an object of Coinbase BTC/USD data', done => {
     var objectdata = coinTicker('coinbase', 'BTC-USD').then(data => {
-      //console.log('data: ', data); 
       expect(data).to.be.an('object');
       expect(data).to.have.all.keys('last', 'currency', 'exchange', 'pair');
       expect(data.last).to.be.a('string');
@@ -64,7 +63,6 @@ describe('coinTicker', () => {
   it('Should return an object of Bitstamp BTC/EUR data', done => {
     coinTicker('bitstamp', 'btceur')
       .then(data => {
-        // console.log('data:', data);
         expect(data).to.be.an('object');
         expect(data).to.have.all.keys('last', 'ask', 'bid', 'low', 'high', 'vol', 'timestamp', 'exchange', 'pair');
         expect(data.last).to.be.a('string');
@@ -81,7 +79,6 @@ describe('coinTicker', () => {
   it('Should return an object of Bitstamp EUR/USD data', done => {
     coinTicker('bitstamp', 'eurusd')
       .then(data => {
-        // console.log('data:', data);
         expect(data).to.be.an('object');
         expect(data).to.have.all.keys('last', 'ask', 'bid', 'low', 'high', 'vol', 'timestamp', 'exchange', 'pair');
         expect(data.last).to.be.a('string');
@@ -98,7 +95,6 @@ describe('coinTicker', () => {
   it('Should return an object of Bitstamp XRP/EUR data', done => {
     coinTicker('bitstamp', 'xrpeur')
       .then(data => {
-        // console.log('data:', data);
         expect(data).to.be.an('object');
         expect(data).to.have.all.keys('last', 'ask', 'bid', 'low', 'high', 'vol', 'timestamp', 'exchange', 'pair');
         expect(data.last).to.be.a('string');
@@ -115,15 +111,17 @@ describe('coinTicker', () => {
 
   // bitcoinaverage
   it('Should return an object of BitcoinAverage BTC/USD data', done => {
-    coinTicker('bitcoinaverage').then(data => {
-      expect(data).to.be.an('object');
-      expect(data).to.have.all.keys('success', 'price', 'time', 'exchange', 'pair');
-      expect(data.success).to.be.a('string');
-      expect(data.price).to.be.a('string');
-      expect(data.time).to.be.a('string');
-      expect(data.exchange).to.equal('bitcoinaverage');
-      done();
-    });
+    coinTicker('bitcoinaverage', 'BTC-USD')
+      .then(data => {
+        expect(data).to.be.an('object');
+        expect(data).to.have.all.keys('success', 'price', 'time', 'exchange', 'pair');
+        expect(data.success).to.be.a('boolean');
+        expect(data.price).to.be.a('number');
+        expect(data.time).to.be.a('string');
+        expect(data.exchange).to.equal('bitcoinaverage');
+    })
+    .then(done)
+    .catch(err => done(err));
   });
 
 
