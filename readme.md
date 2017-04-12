@@ -7,7 +7,6 @@ Initial goal is to get this compatible with the Airbitz ABC API.
 
 # TODO
 
-* Add support for BraveNewCoin (need API key)
 * Make sure objects and modules are done properly for API
 * Move test scripts into mocha framework
 * Add a test using mock ABC caller
