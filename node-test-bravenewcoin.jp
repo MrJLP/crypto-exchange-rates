@@ -1,0 +1,21 @@
+
+
+var bravenewcoin = require("./exchangeRateSources").bravenewcoin
+
+var name = bravenewcoin.getName()
+console.log("bravenewcoin.getName() = ", name)
+
+const currencyPairs = [
+  { source: 'BTC', dest: 'USD' },
+  { source: 'ETH', dest: 'USD' }
+]
+
+console.log("bravenewcoin.getCurrencyPairs(", currencyPairs, ")...")
+
+var ret = bravenewcoin.getCurrencyPairs( currencyPairs, function(results) {
+  console.log("RESULTS:\n", results)
+})
+
+console.log("RESPONSE:")
+
+
