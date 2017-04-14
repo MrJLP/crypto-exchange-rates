@@ -16,8 +16,6 @@ exports.getCurrencyPairs = function(pairs, callback) {
     // save axios promises for request
     p = axios.get(`https://apiv2.bitcoinaverage.com/convert/global?from=${element.source}&to=${element.dest}&amount=1` )
     promises.push(p)
-
-    console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
   })
 
   axios.all(promises).then( function(responses) {

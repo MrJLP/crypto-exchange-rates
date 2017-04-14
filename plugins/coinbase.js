@@ -28,10 +28,7 @@ exports.getCurrencyPairs = function(pairs, callback) {
 
     p = axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,
                     { headers: {'CB-VERSION': VERSION_DATE } })
-    // save axios promises
     promises.push(p)
-
-    console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
   })
 
   axios.all(promises).then( function(responses) {

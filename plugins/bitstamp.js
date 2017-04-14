@@ -27,8 +27,6 @@ exports.getCurrencyPairs = function(pairs, callback) {
 
     p = axios.get(`https://www.bitstamp.net/api/v2/ticker/${currencyPair}`)
     promises.push(p)
-
-    console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
   })
 
   axios.all(promises).then( function(responses) {

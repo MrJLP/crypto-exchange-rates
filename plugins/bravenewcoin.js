@@ -28,10 +28,7 @@ exports.getCurrencyPairs = function(pairs, callback) {
 
     p = axios.get(`https://bravenewcoin-v1.p.mashape.com/convert?from=${element.source}&qty=1&to=${element.dest}`,
                     { headers: {'X-Mashape-Key': MASHAPE_API_KEY, 'Accept': 'application/json' } })
-    // save axios promises
     promises.push(p)
-
-    console.log(`HTTP request: source: ${element.source}, dest: ${element.dest}`)
   })
 
   axios.all(promises).then( function(responses) {
