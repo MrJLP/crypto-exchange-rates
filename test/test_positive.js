@@ -14,16 +14,27 @@ const pluginExchangeNames = [
 // all the allowed pairs for each exchange
 const maxPairs = {
   coinbase: [
-    'BTC-USD', 'BTC-EUR', 'ETH-USD', 'ETH-EUR'
+    { source: 'BTC', dest: 'USD' },
+    { source: 'BTC', dest: 'EUR' },
+    { source: 'ETH', dest: 'USD' },
+    { source: 'ETH', dest: 'EUR' },
   ],
   bitstamp: [
-    'BTC-USD', 'BTC-EUR', 'EUR-USD', 'XRP-USD', 'XRP-EUR', 'XRP-BTC',
+    { source: 'BTC', dest: 'USD' },
+    { source: 'BTC', dest: 'EUR' },
+    { source: 'EUR', dest: 'USD' },
+    { source: 'XRP', dest: 'USD' },
+    { source: 'XRP', dest: 'EUR' },
+    { source: 'XRP', dest: 'BTC' },
   ],
   bitcoinaverage: [
-    'BTC-USD'
+    { source: 'BTC', dest: 'USD' },
   ],
   bravenewcoin: [
-    'BTC-USD', 'BTC-EUR', 'ETH-USD', 'ETH-EUR' 
+    { source: 'BTC', dest: 'USD' },
+    { source: 'BTC', dest: 'EUR' },
+    { source: 'ETH', dest: 'USD' },
+    { source: 'ETH', dest: 'EUR' },
   ],
 }
 

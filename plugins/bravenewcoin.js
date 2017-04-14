@@ -19,9 +19,7 @@ exports.getCurrencyPairs = function(pairs, callback) {
 
   var promises = []
 
-  console.log("pairs: ", pairs)
   pairs.forEach( function(element, index, array) {
-    console.log("element: ", element)
     var currencyPair = `${element.source}-${element.dest}`
     if ( ! availablePairs.includes(currencyPair) ) {
       console.log(`ERR: ${currencyPair} not found, using default instead`)
