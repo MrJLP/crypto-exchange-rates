@@ -22,8 +22,8 @@ exports.getCurrencyPairs = function(pairs, callback) {
   pairs.forEach( function(element, index, array) {
     var currencyPair = `${element.source}-${element.dest}`
     if ( ! availablePairs.includes(currencyPair) ) {
+      console.log(`ERR: ${currencyPair} not found, using default instead`)
       currencyPair = 'BTC-USD'
-      console.log(`ERR: ${currencyPair} not found, using default instead}`)
     }
 
     p = axios.get(`https://api.coinbase.com/v2/prices/${currencyPair}/spot`,

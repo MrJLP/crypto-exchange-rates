@@ -30,17 +30,17 @@ exports.getCurrencyPairs = function(pairs, callback) {
   })
 
   axios.all(promises).then( function(responses) {
-                       results = []
-                       responses.forEach( function(response, index, array) {
-                         const { bid, ask, last, low, high, volume, timestamp } = response.data;
-                         //var value = response.data.data['amount'] || "";
-                         results.push( { source: pairs[index].source, dest: pairs[index].dest, value: last} )
-                       })
-                       callback(results)
-                     })
-                     .catch(function(error) {
-                       console.log(error)
-                     })
+    results = []
+    responses.forEach( function(response, index, array) {
+      const { bid, ask, last, low, high, volume, timestamp } = response.data;
+      results.push( { source: pairs[index].source, dest: pairs[index].dest, value: last} )
+    })
+    callback(results)
+  })
+  .catch(function(error) {
+    console.log(error)
+  })
+
 }
 
 

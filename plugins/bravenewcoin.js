@@ -19,11 +19,13 @@ exports.getCurrencyPairs = function(pairs, callback) {
 
   var promises = []
 
+  console.log("pairs: ", pairs)
   pairs.forEach( function(element, index, array) {
+    console.log("element: ", element)
     var currencyPair = `${element.source}-${element.dest}`
     if ( ! availablePairs.includes(currencyPair) ) {
+      console.log(`ERR: ${currencyPair} not found, using default instead`)
       currencyPair = 'BTC-USD'
-      console.log(`ERR: ${currencyPair} not found, using default instead}`)
     }
 
     p = axios.get(`https://bravenewcoin-v1.p.mashape.com/convert?from=${element.source}&qty=1&to=${element.dest}`,
@@ -32,17 +34,17 @@ exports.getCurrencyPairs = function(pairs, callback) {
   })
 
   axios.all(promises).then( function(responses) {
-                       results = []
-                       responses.forEach( function(response, index, array) {
-                         var value = response.data['to_quantity'] || "";
-                         value = String(value)
-                         results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
-                       })
-                       callback(results)
-                     })
-                     .catch(function(error) {
-                       console.log(error)
-                     })
+    results = []
+    responses.forEach( function(response, index, array) {
+      var value = response.data['to_quantity'] || "";
+      value = String(value)
+      results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
+    })
+    callback(results)
+  })
+  .catch(function(error) {
+    console.log(error)
+  })
 
 }
 
