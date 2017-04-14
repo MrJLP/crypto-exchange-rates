@@ -7,10 +7,7 @@ Initial goal is to get this compatible with the Airbitz ABC API.
 
 # TODO
 
-* Make sure objects and modules are done properly for API
-* Move test scripts into mocha framework
-* Add a test using mock ABC caller
-* Make sure error handling is good
-* Refactoring: base class or instance for axios to keep DRY
-* Other refactoring and cleanup
+* Make sure objects and modules are right for API
+* Make sure error handling is right
+* Refactoring: base class or instance for axios
 
