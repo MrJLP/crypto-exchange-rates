@@ -12,17 +12,20 @@ const currencyPairs = [
   { source: 'ETH', dest: 'USD' }
 ]
 
+console.log("\n\ncurrencyPairs: \n", currencyPairs)
+
 exchanges.forEach( function(exchange, index) {
   plugin = require("./exchangeRateSources")[exchange]
-  console.log("\n\n\n", exchange, ": ", plugin)
 
   var name = plugin.getName()
   console.log("\ngetName() = ", name)
 
   console.log("getCurrencyPairs(", currencyPairs, ")...")
   var ret = plugin.getCurrencyPairs( currencyPairs, function(results) {
-    console.log("RESULTS: ", results)
+    console.log("\n" + exchange + ": ", results)
   })
 
 })
+
+console.log("\nRESULTS:\n")
 
