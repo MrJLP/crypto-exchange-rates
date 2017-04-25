@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const exchangeRateSources = require("./index")
+
 const exchanges = [
   'coinbase',
   'bitstamp',
@@ -15,7 +17,7 @@ const currencyPairs = [
 console.log("\n\ncurrencyPairs: \n", currencyPairs)
 
 exchanges.forEach( function(exchange, index) {
-  plugin = require("./exchangeRateSources")[exchange]
+  plugin = exchangeRateSources[exchange]
 
   var name = plugin.getName()
   console.log("\ngetName() = ", name)

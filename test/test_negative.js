@@ -1,8 +1,7 @@
-const chai = require('chai');
-//        }).then(function(results) {
-const { expect } = chai;
 
-const exchangeRateSources = require('../exchangeRateSources.js');
+var expect = require('chai').expect;
+
+var exchangeRateSources = require('../index.js');
 
 const pluginExchangeNames = [
   'coinbase',
@@ -14,7 +13,7 @@ const pluginExchangeNames = [
 describe('Negative cases', function() {
   pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-    var plugin = require('../exchangeRateSources.js')[exchangeName];
+    var plugin = exchangeRateSources[exchangeName];
 
     describe(exchangeName + '.getCurrencyPairs() no params', function() {
       it('getCurrencyPairs()', done => {

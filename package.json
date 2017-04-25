@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MrJLP/crypt-exchange-rates"
+    "url": "git+https://github.com/MrJLP/crypto-exchange-rates"
   },
   "scripts": {
     "test": "./node_modules/.bin/mocha ./test"
