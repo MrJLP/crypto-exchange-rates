@@ -17,28 +17,27 @@ describe('Negative cases', function() {
 
     describe(exchangeName + '.getCurrencyPairs() no params', function() {
       it('getCurrencyPairs()', done => {
-        var results = plugin.getCurrencyPairs()
-        expect(results).equal(null)
-        //TODO: what should it return
+        expect(function() {
+            var results = plugin.getCurrencyPairs()
+        }).to.throw()
         done()
       })
     })
 
     describe(exchangeName + '.getCurrencyPairs() no pairs param, only callback', function() {
       it('getCurrencyPairs()', done => {
-        var results = plugin.getCurrencyPairs( function(results) {
-          //TODO: what should it return
-        })
+        expect(function() {
+          var results = plugin.getCurrencyPairs( function(results) {})
+        }).to.throw()
         done()
       })
     })
 
     describe(exchangeName + '.getCurrencyPairs() null for pairs', function() {
-      const pairs = null
-      it(`getCurrencyPairs(${pairs})`, done => {
-        var results = plugin.getCurrencyPairs(pair, function(results) {
-          //TODO: what should it return
-        })
+      it('getCurrencyPairs(null, callback)', done => {
+        expect(function() {
+          var results = plugin.getCurrencyPairs(null, function(results) {})
+        }).to.throw()
         done()
       })
     })
@@ -46,7 +45,6 @@ describe('Negative cases', function() {
     describe(exchangeName + '.getCurrencyPairs() empty array', function() {
       it('getCurrencyPairs([])', done => {
         var results = plugin.getCurrencyPairs([], function(results) {
-          //TODO: return empty array back?
           expect(results).an('array')
           expect(results.length).equals(0)
         })
@@ -57,17 +55,9 @@ describe('Negative cases', function() {
     describe(exchangeName + '.getCurrencyPairs() bad object properties', function() {
       const pairs = [ { x: 'BTC', y: 'USD' } ]
       it(`getCurrencyPairs(${pairs})`, done => {
-        var results = plugin.getCurrencyPairs(pairs, function(results) {
-          // TODO: should use default of BTC-USD?
-          expect(results).an('array')
-          expect(results.length).equals(1)
-          expect(results).keys('source', 'dest', 'value')
-          expect(results.source).a('string')
-          expect(results.dest).a('string')
-          expect(results.value).a('string')
-          expect(results.source).equal('BTC')
-          expect(results.dest).equal('USD')
-        })
+        expect(function() {
+          var results = plugin.getCurrencyPairs(pairs, function(results) {})
+        }).to.throw()
         done()
       })
     })
