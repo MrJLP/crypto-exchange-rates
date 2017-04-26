@@ -1,6 +1,10 @@
 
 'use strict'
 
+var debug = require('debug')
+var logInfo = debug('crypto-exchange-rates:info')
+var logDebug = debug('crypto-exchange-rates:debug')
+
 const axios = require('axios');
 
 class ExchangeRateLibBase {
@@ -30,11 +34,14 @@ class ExchangeRateLibBase {
   getCurrencyPairs(pairs, callback) {
     var self = this
 
+    logDebug("getCurrencyPairs(%o, %o)", pairs, callback)
+
     // param checking - throws exception if not valid
     self.validateInput(pairs, callback)
 
     // make sure currency pairs are valid, if not then replace with default pair
     pairs = self.verifyCurrencyPairs(pairs)
+    logDebug("getCurrencyPairs: after verifyCurrencyPairs() pairs=%o", pairs)
 
     // make requests
     var promises = []
@@ -45,11 +52,12 @@ class ExchangeRateLibBase {
     })
 
     axios.all(promises).then( function(responses) {
-      var results = []
+      let results = []
       responses.forEach( function(response, index, array) {
         var value = self.processResponse(response)
         results.push( { source: pairs[index].source, dest: pairs[index].dest, value: value } )
       })
+      logDebug("calling callback(%o)", results)
       callback(results)
     })
     .catch(function(error) {
@@ -85,7 +93,7 @@ class ExchangeRateLibBase {
     const DEFAULT_CURRENCY_PAIR = { source: 'BTC', dest: 'USD' }
 
     var self = this
-    var returnPairs = pairs
+    var returnPairs = pairs.slice()
 
     pairs.forEach( function(input, index, array) {
       var isAllowed = false
