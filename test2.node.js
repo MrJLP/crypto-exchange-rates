@@ -7,7 +7,8 @@ var log = debug('test')
 
 var exchangeRateSources = require("./lib2/exchangeRateSources")
 
-const pluginNames = [ 'coinbase', 'bitstamp', 'bitcoinaverage', 'bravenewcoin' ]
+const pluginNames = [ 'coinbase', 'bitstamp', 'bitcoinaverage' ]
+//const pluginNames = [ 'coinbase', 'bitstamp', 'bitcoinaverage', 'bravenewcoin' ]
 const currencyPairs = [ { source: 'BTC', dest: 'USD' }, { source: 'ETH', dest: 'USD' } ]
 
 log("pluginNames: %o", pluginNames)

@@ -8,7 +8,8 @@ class ExchangeRateLibBase {
   constructor (exchangeName, baseURL, timeout) {
     this.exchangeName = exchangeName
     this.baseURL = baseURL
-    this.timeout = timeout
+    this.timeout = timeout || 2000 // arbitrary default of 2s if not defined in sub-class
+    this.allowedPairs = [] // defined in sub-class
     this.axiosInstance = axios.create({ baseURL: this.baseURL, timeout: this.timeout })
   }
 
@@ -29,21 +30,15 @@ class ExchangeRateLibBase {
   getCurrencyPairs(pairs, callback) {
     var self = this
 
-    // TODO: param checking
+    // param checking - throws exception if not valid
+    self.validateInput(pairs, callback)
 
+    // make sure currency pairs are valid, if not then replace with default pair
+    pairs = self.verifyCurrencyPairs(pairs)
 
-    // check that 
+    // make requests
     var promises = []
     pairs.forEach( function(element, index, array) {
-
-      //TODO: have allowedParis be an array of tuples, not strings
-
-//      var currencyPair = `${element.source}-${element.dest}`
-//      if ( ! availablePairs.includes(currencyPair) ) {
-//        console.log(`ERR: ${currencyPair} not found, using default instead`)
-//        currencyPair = 'BTC-USD'
-//      }
-
       var req = self.makeRequest(element.source, element.dest)
       var p = self.axiosInstance.get(req.url, req)
       promises.push(p)
@@ -61,6 +56,53 @@ class ExchangeRateLibBase {
       console.log(error)
     })
 
+  }
+
+  // throw exception here if using invalid args rather than later on for clarity
+  validateInput(pairs, callback) {
+    if ( typeof pairs != 'object' || ! Array.isArray(pairs)) {
+      throw Error("1st arg expected to be an array of currency pairs: ", typeof pairs)
+    }
+    if ( typeof callback != 'function' ) {
+      throw Error("2nd arg expected to be a callback function: ", typeof callback)
+    }
+
+    pairs.forEach( function(element, index) {
+      if ( typeof element != 'object' ) {
+        throw Error("not an array of objects")
+      }
+      if ( element.source == undefined ) {
+        throw Error("'source' not defined in pair")
+      }
+      if ( element.dest == undefined ) {
+        throw Error("'dest' not defined in pair")
+      }
+    })
+  }
+
+  // make sure currency pairs are valid, if not replace with default BTC-USD per spec
+  verifyCurrencyPairs(pairs) {
+    const DEFAULT_CURRENCY_PAIR = { source: 'BTC', dest: 'USD' }
+
+    var self = this
+    var returnPairs = pairs
+
+    pairs.forEach( function(input, index, array) {
+      var isAllowed = false
+      for ( let i = 0 ; i < self.allowedPairs.length ; i++ ) {
+        let allowedPair = self.allowedPairs[i]
+        if ( input.source == allowedPair[0] && input.dest == allowedPair[1] ) {
+          isAllowed = true
+          break
+        }
+      }
+
+      // if it got here then it's not allowed - override with default
+      if ( ! isAllowed ) {
+        returnPairs[index] = DEFAULT_CURRENCY_PAIR
+      }
+    })
+    return returnPairs
   }
 }
 
@@ -103,12 +145,12 @@ class Bitstamp extends ExchangeRateLibBase
     super('bitstamp', 'https://www.bitstamp.net', 2000)
 
     this.allowedPairs = [
-      [ 'BTC', 'USD'],
-      [ 'BTC', 'EUR'],
-      [ 'EUR', 'USD'],
-      [ 'XRP', 'USD'],
-      [ 'XRP', 'EUR'],
-      [ 'XRP', 'BTC'],
+      [ 'BTC', 'USD' ],
+      [ 'BTC', 'EUR' ],
+      [ 'EUR', 'USD' ],
+      [ 'XRP', 'USD' ],
+      [ 'XRP', 'EUR' ],
+      [ 'XRP', 'BTC' ],
     ]
   }
 
