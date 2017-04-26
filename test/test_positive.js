@@ -44,9 +44,7 @@ describe('Positive cases', function() {
 
     describe(exchangeName + ' exchangeRateLib:', function() {
       it('exchangeRateLib object', done => {
-        expect(exchangeName).a('string')
         expect(plugin).an('object')
-        expect(plugin).keys('getName', 'getCurrencyPairs')
         expect(plugin.getName).a('function')
         expect(plugin.getCurrencyPairs).a('function')
         done()
