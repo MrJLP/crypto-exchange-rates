@@ -12,26 +12,36 @@ const pluginExchangeNames = [
 
 
 describe('Sync OK', function() {
-  pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-    var plugin = exchangeRateSources[exchangeName]
+  describe('verifying exchangeRateLib properties', function() {
 
-    describe(exchangeName + ' exchangeRateLib:', function() {
-      it('exchangeRateLib object', done => {
+    pluginExchangeNames.forEach(function(exchangeName, index, array) {
+
+      var plugin = exchangeRateSources[exchangeName]
+
+      it("exchangeRateSources." + exchangeName, done => {
         expect(plugin).an('object')
         expect(plugin.getName).a('function')
         expect(plugin.getCurrencyPairs).a('function')
         done()
       })
-    })
 
-    describe(exchangeName + '.getName()', function() {
-      it('getName() = ' + exchangeName, done => {
+    })
+  })
+
+  describe("getName()", function() {
+
+    pluginExchangeNames.forEach(function(exchangeName, index, array) {
+
+      var plugin = exchangeRateSources[exchangeName]
+
+      it(exchangeName + ".getName()" , done => {
         var name = plugin.getName()
         expect(name).a('string')
         expect(name).equals(exchangeName)
         done()
       })
+
     })
   })
 })

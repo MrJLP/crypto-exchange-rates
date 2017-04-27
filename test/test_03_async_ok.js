@@ -9,7 +9,7 @@ const pluginExchangeNames = [
   'coinbase',
   'bitstamp',
   'bitcoinaverage',
-  'bravenewcoin'
+//  'bravenewcoin'
 ]
 
 // all the allowed pairs for each exchange
@@ -40,14 +40,16 @@ const maxPairs = {
 }
 
 describe('Async OK', function() {
-  pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-    var plugin = exchangeRateSources[exchangeName]
+  // one currency pair
+  describe("1 pair - BTC-USD", function() {
 
-    // one currency pair
-    describe(exchangeName + '.getCurrencyPairs() BTC-USD', function() {
+    pluginExchangeNames.forEach(function(exchangeName, index, array) {
+
+      var plugin = exchangeRateSources[exchangeName]
       const pairs = [ { source: 'BTC', dest: 'USD' } ]
-      it("getCurrencyPairs() BTC-USD", function(done) {
+
+      it(exchangeName + ".getCurrencyPairs() BTC-USD", function(done) {
         var p = new Promise( function(resolve, reject) {
           log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
           plugin.getCurrencyPairs(pairs, function(results) {
@@ -65,12 +67,19 @@ describe('Async OK', function() {
           done()
         })
       })
-    })
 
-    // all allowed currency pairs for the exchange
-    describe(exchangeName + '.getCurrencyPairs() BTC-USD', function() {
+    })
+  })
+
+  // all allowed currency pairs for the exchange
+  describe("all allowed pairs", function() {
+
+    pluginExchangeNames.forEach(function(exchangeName, index, array) {
+
+      var plugin = exchangeRateSources[exchangeName]
       const pairs = maxPairs[exchangeName]
-      it("getCurrencyPairs() BTC-USD", function(done) {
+
+      it(exchangeName + ".getCurrencyPairs() all allowed pairs", function(done) {
         var p = new Promise( function(resolve, reject) {
           log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
           plugin.getCurrencyPairs(pairs, function(results) {
@@ -87,6 +96,42 @@ describe('Async OK', function() {
             expect(results[i].dest).a('string')
             expect(results[i].value).a('string')
           }
+          done()
+        })
+      })
+
+    })
+  })
+
+  // all allowed currency pairs plus one bogus one
+  describe("all allowed pairs + bogus one", function() {
+
+    pluginExchangeNames.forEach(function(exchangeName, index, array) {
+
+      var plugin = exchangeRateSources[exchangeName]
+
+      var pairs = maxPairs[exchangeName]
+      pairs.push({ source: 'XXX', dest: 'YYY' }) // add a bogus pair
+
+      it(exchangeName + ".getCurrencyPairs() all allowed pairs + bogus", function(done) {
+        var p = new Promise( function(resolve, reject) {
+          log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
+          plugin.getCurrencyPairs(pairs, function(results) {
+            resolve(results)
+          })
+        })
+        p.then( function(results) {
+          log("got results: %o", results)
+          expect(results).an('array')
+          expect(results.length).equals(pairs.length)
+          for ( let i = 0 ; i < results.length ; i++ ) {
+            expect(results[i]).keys('source', 'dest', 'value')
+            expect(results[i].source).a('string')
+            expect(results[i].dest).a('string')
+            expect(results[i].value).a('string')
+          }
+          expect(results[ (pairs.length - 1) ].source).equals('BTC')
+          expect(results[ (pairs.length - 1) ].dest).equals('USD')
           done()
         })
       })
