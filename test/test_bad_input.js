@@ -10,7 +10,7 @@ const pluginExchangeNames = [
   'bravenewcoin'
 ]
 
-describe('Negative cases', function() {
+describe('Bad input', function() {
   pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
     var plugin = exchangeRateSources[exchangeName];
@@ -33,7 +33,7 @@ describe('Negative cases', function() {
       })
     })
 
-    describe(exchangeName + '.getCurrencyPairs() null for pairs', function() {
+    describe(exchangeName + '.getCurrencyPairs() pairs is null', function() {
       it('getCurrencyPairs(null, callback)', done => {
         expect(function() {
           var results = plugin.getCurrencyPairs(null, function(results) {})
@@ -42,7 +42,7 @@ describe('Negative cases', function() {
       })
     })
 
-    describe(exchangeName + '.getCurrencyPairs() empty array', function() {
+    describe(exchangeName + '.getCurrencyPairs() pairs is empty array', function() {
       it('getCurrencyPairs([])', done => {
         var results = plugin.getCurrencyPairs([], function(results) {
           expect(results).an('array')
@@ -52,7 +52,7 @@ describe('Negative cases', function() {
       })
     })
 
-    describe(exchangeName + '.getCurrencyPairs() bad object properties', function() {
+    describe(exchangeName + '.getCurrencyPairs() pairs has bad object properties', function() {
       const pairs = [ { x: 'BTC', y: 'USD' } ]
       it(`getCurrencyPairs(${pairs})`, done => {
         expect(function() {
