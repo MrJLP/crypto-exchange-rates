@@ -1,7 +1,9 @@
 
 var expect = require('chai').expect
-
 var exchangeRateSources = require('../index.js')
+
+var debug = require('debug')
+var log = debug('crypto-exchange-rates:test')
 
 const pluginExchangeNames = [
   'coinbase',
@@ -42,36 +44,53 @@ describe('Async OK', function() {
 
     var plugin = exchangeRateSources[exchangeName]
 
+    // one currency pair
     describe(exchangeName + '.getCurrencyPairs() BTC-USD', function() {
       const pairs = [ { source: 'BTC', dest: 'USD' } ]
-      it(`getCurrencyPairs(${pairs})`, done => {
-        var results = plugin.getCurrencyPairs(pairs, function(results) {
+      it("getCurrencyPairs() BTC-USD", function(done) {
+        var p = new Promise( function(resolve, reject) {
+          log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
+          plugin.getCurrencyPairs(pairs, function(results) {
+            resolve(results)
+          })
+        })
+        p.then( function(results) {
+          log("got results: %o", results)
           expect(results).an('array')
           expect(results.length).equals(1)
-          expect(results).keys('source', 'dest', 'value')
-          expect(results.source).a('string')
-          expect(results.dest).a('string')
-          expect(results.value).a('string')
+          expect(results[0]).keys('source', 'dest', 'value')
+          expect(results[0].source).a('string')
+          expect(results[0].dest).a('string')
+          expect(results[0].value).a('string')
+          done()
         })
-        done()
       })
     })
 
+    // all allowed currency pairs for the exchange
     describe(exchangeName + '.getCurrencyPairs() BTC-USD', function() {
       const pairs = maxPairs[exchangeName]
-      it(`getCurrencyPairs(${pairs})`, done => {
-        var results = plugin.getCurrencyPairs(pairs, function(results) {
-          expect(results).an('array')
-          expect(results.length).equals(1)
-          expect(results).keys('source', 'dest', 'value')
-          expect(results.source).a('string')
-          expect(results.dest).a('string')
-          expect(results.value).a('string')
+      it("getCurrencyPairs() BTC-USD", function(done) {
+        var p = new Promise( function(resolve, reject) {
+          log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
+          plugin.getCurrencyPairs(pairs, function(results) {
+            resolve(results)
+          })
         })
-        done()
+        p.then( function(results) {
+          log("got results: %o", results)
+          expect(results).an('array')
+          expect(results.length).equals(pairs.length)
+          for ( let i = 0 ; i < results.length ; i++ ) {
+            expect(results[i]).keys('source', 'dest', 'value')
+            expect(results[i].source).a('string')
+            expect(results[i].dest).a('string')
+            expect(results[i].value).a('string')
+          }
+          done()
+        })
       })
     })
-
 
   })
 })
