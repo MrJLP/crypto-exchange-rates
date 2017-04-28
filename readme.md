@@ -7,7 +7,7 @@ Initial goal is to get this compatible with the Airbitz ABC API.
 
 # TODO
 
-* Make sure objects and modules are right for API
-* Make sure error handling is right
-* Refactoring: base class or instance for axios
+* use NPM config to set API key, timeout, maybe other values
+* another base class to handle ticker responses with multiple currency pairs
+* get more exchange plugins in
 
