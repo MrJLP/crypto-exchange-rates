@@ -13,7 +13,7 @@ const pluginExchangeNames = [
 describe('Bad input', function() {
   pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-    var plugin = exchangeRateSources[exchangeName];
+    var plugin = new exchangeRateSources[exchangeName];
 
     describe(exchangeName + '.getCurrencyPairs() no params', function() {
       it('getCurrencyPairs()', done => {

@@ -17,7 +17,7 @@ describe('Sync OK', function() {
 
     pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-      var plugin = exchangeRateSources[exchangeName]
+      var plugin = new exchangeRateSources[exchangeName]
 
       it("exchangeRateSources." + exchangeName, done => {
         expect(plugin).an('object')
@@ -33,7 +33,7 @@ describe('Sync OK', function() {
 
     pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-      var plugin = exchangeRateSources[exchangeName]
+      var plugin = new exchangeRateSources[exchangeName]
 
       it(exchangeName + ".getName()" , done => {
         var name = plugin.getName()

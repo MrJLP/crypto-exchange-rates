@@ -46,7 +46,7 @@ describe('Async OK', function() {
 
     pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-      var plugin = exchangeRateSources[exchangeName]
+      var plugin = new exchangeRateSources[exchangeName]
       const pairs = [ { source: 'BTC', dest: 'USD' } ]
 
       it(exchangeName + ".getCurrencyPairs() BTC-USD", function(done) {
@@ -76,7 +76,7 @@ describe('Async OK', function() {
 
     pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-      var plugin = exchangeRateSources[exchangeName]
+      var plugin = new exchangeRateSources[exchangeName]
       const pairs = maxPairs[exchangeName]
 
       it(exchangeName + ".getCurrencyPairs() all allowed pairs", function(done) {
@@ -108,7 +108,7 @@ describe('Async OK', function() {
 
     pluginExchangeNames.forEach(function(exchangeName, index, array) {
 
-      var plugin = exchangeRateSources[exchangeName]
+      var plugin = new exchangeRateSources[exchangeName]
 
       var pairs = maxPairs[exchangeName]
       pairs.push({ source: 'XXX', dest: 'YYY' }) // add a bogus pair

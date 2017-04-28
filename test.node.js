@@ -15,7 +15,7 @@ console.log("currencyPairs: ", currencyPairs)
 
 pluginNames.forEach( function(name, index, array) {
 
-  var plugin = exchangeRateSources[name]
+  var plugin = new exchangeRateSources[name]
 
   var name = plugin.getName()
   console.log("getName() = ", name)
