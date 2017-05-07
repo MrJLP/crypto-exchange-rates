@@ -1,6 +1,6 @@
 # crypto-exchange-rates
 
-This is my first Javascript library so a sort of learning exercise for now.
+This is a Javascript library that provides an interface for retrieving cryptocurrency exchange rate values compatible with the [ABCExchangeRateLib](https://developer.airbitz.co/javascript/#abcexchangeratelib) API.
 
 # TODO
 
@@ -8,6 +8,4 @@ This is my first Javascript library so a sort of learning exercise for now.
 * another base class to handle ticker responses with multiple currency pairs
 * get more exchange plugins in
 
-
 Initial code started off from fork of donbobvanbirt/coin-ticker repo (https://github.com/donbobvanbirt/coin-ticker).
-
