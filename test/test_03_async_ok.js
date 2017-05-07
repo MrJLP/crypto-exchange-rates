@@ -5,12 +5,22 @@ var exchangeRateSources = require('../index.js')
 var debug = require('debug')
 var log = debug('crypto-exchange-rates:test')
 
-const pluginExchangeNames = [
+let pluginExchangeNames = [
   'coinbase',
   'bitstamp',
-  'bitcoinaverage',
-//  'bravenewcoin'
+  'bitcoinaverage'
 ]
+
+// get API key from config, which can be in env var, npm command line or npm config
+let bravenewcoinApiKey = process.env["npm_config_bravenewcoin_api_key"]
+if ( ! bravenewcoinApiKey ) {
+  console.log("Skipping bravewnew coin as no API key was found (npm_config_bravenewcoin_api_key)")
+}
+else {
+  console.log("Adding bravenewcoin since there is an API key defined for it")
+  pluginExchangeNames.push('bravenewcoin')
+}
+
 
 // all the allowed pairs for each exchange
 const maxPairs = {
