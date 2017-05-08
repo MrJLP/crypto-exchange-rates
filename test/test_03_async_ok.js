@@ -49,6 +49,30 @@ const maxPairs = {
   ],
 }
 
+let validateReturnValues = function(results, hasError = false) {
+  log("got results: %o", results)
+  expect(results).an('array')
+  for ( let i = 0 ; i < results.length ; i++ ) {
+    if ( ! results[i].error ) {
+      expect(results[i]).keys('source', 'dest', 'value')
+      expect(results[i].source).a('string')
+      expect(results[i].dest).a('string')
+      expect(results[i].value).a('string')
+    }
+    else {
+      expect(results[i]).keys('source', 'dest', 'value', 'error')
+      expect(results[i].source).a('string')
+      expect(results[i].dest).a('string')
+      expect(results[i].value).a('undefined')
+      expect(results[i].error).a('string')
+      if ( ! hasError ) {
+        throw Error(results[i].error)
+      }
+    }
+  }
+}
+
+
 describe('Async OK', function() {
 
   // one currency pair
@@ -59,23 +83,23 @@ describe('Async OK', function() {
       var plugin = new exchangeRateSources[exchangeName]
       const pairs = [ { source: 'BTC', dest: 'USD' } ]
 
-      it(exchangeName + ".getCurrencyPairs() BTC-USD", function(done) {
-        var p = new Promise( function(resolve, reject) {
+      it(exchangeName + ".getCurrencyPairs() BTC-USD", function() {
+        return new Promise( function(resolve, reject) {
           log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
           plugin.getCurrencyPairs(pairs, function(results) {
             resolve(results)
           })
         })
-        p.then( function(results) {
-          log("got results: %o", results)
-          expect(results).an('array')
+        .then( function(results) {
+          validateReturnValues(results)
           expect(results.length).equals(1)
-          expect(results[0]).keys('source', 'dest', 'value')
-          expect(results[0].source).a('string')
-          expect(results[0].dest).a('string')
-          expect(results[0].value).a('string')
-          done()
         })
+/*
+        .catch( function(error) {
+          expect(true, error)
+          expect(false, error)
+        })
+*/
       })
 
     })
@@ -89,25 +113,21 @@ describe('Async OK', function() {
       var plugin = new exchangeRateSources[exchangeName]
       const pairs = maxPairs[exchangeName]
 
-      it(exchangeName + ".getCurrencyPairs() all allowed pairs", function(done) {
-        var p = new Promise( function(resolve, reject) {
+      it(exchangeName + ".getCurrencyPairs() all allowed pairs", function() {
+        return new Promise( function(resolve, reject) {
           log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
           plugin.getCurrencyPairs(pairs, function(results) {
             resolve(results)
           })
         })
-        p.then( function(results) {
-          log("got results: %o", results)
-          expect(results).an('array')
-          expect(results.length).equals(pairs.length)
-          for ( let i = 0 ; i < results.length ; i++ ) {
-            expect(results[i]).keys('source', 'dest', 'value')
-            expect(results[i].source).a('string')
-            expect(results[i].dest).a('string')
-            expect(results[i].value).a('string')
-          }
-          done()
+        .then( function(results) {
+          validateReturnValues(results)
         })
+/*
+        .catch( function(error) {
+          expect(false, error)
+        })
+*/
       })
 
     })
@@ -123,27 +143,23 @@ describe('Async OK', function() {
       var pairs = maxPairs[exchangeName]
       pairs.push({ source: 'XXX', dest: 'YYY' }) // add a bogus pair
 
-      it(exchangeName + ".getCurrencyPairs() all allowed pairs + bogus", function(done) {
-        var p = new Promise( function(resolve, reject) {
+      it(exchangeName + ".getCurrencyPairs() all allowed pairs + bogus", function() {
+        return new Promise( function(resolve, reject) {
           log("%s: getCurrencyPairs(%o)...", exchangeName, pairs)
           plugin.getCurrencyPairs(pairs, function(results) {
             resolve(results)
           })
         })
-        p.then( function(results) {
-          log("got results: %o", results)
-          expect(results).an('array')
+        .then( function(results) {
+          validateReturnValues(results)
+
           expect(results.length).equals(pairs.length)
-          for ( let i = 0 ; i < results.length ; i++ ) {
-            expect(results[i]).keys('source', 'dest', 'value')
-            expect(results[i].source).a('string')
-            expect(results[i].dest).a('string')
-            expect(results[i].value).a('string')
-          }
           expect(results[ (pairs.length - 1) ].source).equals('BTC')
           expect(results[ (pairs.length - 1) ].dest).equals('USD')
-          done()
         })
+//        .catch( function(error) {
+//          expect(false, error)
+//        })
       })
     })
 

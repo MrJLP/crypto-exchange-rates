@@ -20,27 +20,28 @@ describe('Handling bad requests', function() {
 
     const pairs = [ { source: 'BTC', dest: 'USD' } ]
 
-    it("bad URL", function(done) {
+    it("bad URL", function() {
       var plugin = getPlugin("coinbase")
       plugin.makeRequest = function(source, dest) {
         return { url: "asfdasdfasfd" }
       }
-      var p = new Promise( function(resolve, reject) {
+      return new Promise( function(resolve, reject) {
         log("bad URL: getCurrencyPairs(%o)...", pairs)
         plugin.getCurrencyPairs(pairs, function(results) {
           resolve(results)
         })
       })
-      p.then( function(results) {
-        log("p.then: results: %O", results)
-        done()
+      .then( function(results) {
+        log("results: %O", results)
+        expect(results).an('array')
+        expect(results.length).equals(1)
+        expect(results[0]).keys('source', 'dest', 'value', 'error')
+        expect(results[0].source).a('string')
+        expect(results[0].dest).a('string')
+        expect(results[0].value).a('undefined')
+        expect(results[0].error).a('string')
+        log("expected error: ", results[0].error)
       })
-/*
-      .catch( function(error) {
-        log("it: p.catch: error: %O", error)
-        done()
-      })
-*/
     })
 
   })
